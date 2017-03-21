@@ -1,12 +1,11 @@
-# Changes
-
-Version 1.1.0 introduces healthchecks for the containers.
+This project is forked from [big-data-europe/docker-hadoop](https://github.com/big-data-europe/docker-hadoop) for my customizatin needs.
 
 # Hadoop Docker
 
 ## Supported Hadoop Versions
-* 2.7.1 with OpenJDK 7
-* 2.7.1 with OpenJDK 8
+* Hadoop 2.7.1 with OpenJDK 8 on Ubuntu 16.04
+
+You can also compile the specific hadoop with [hadoop-compiler](https://github.com/sangwonl/docker-hadoop-compiler)
 
 ## Description
 

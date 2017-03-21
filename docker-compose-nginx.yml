@@ -1,71 +1,80 @@
-nginx:
-  build: ./nginx
-  hostname: nginx
-  net: hadoop
-  container_name: nginx
-  ports:
-    - "8080:80"
+version: '2.0'
 
-namenode:
-  image: bde2020/hadoop-namenode:1.0.0
-  hostname: namenode
-  container_name: namenode
-  domainname: hadoop
-  net: hadoop
-  volumes:
-    - ./data/namenode:/hadoop/dfs/name
-  environment:
-    - CLUSTER_NAME=test
-  env_file:
-    - ./hadoop.env
+services:
+  nginx:
+    image: sangwonl/hadoop-nginx:latest
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - hadoop
+    ports:
+      - "8088:8088"
+      - "8042:8042"
 
-resourcemanager:
-  image: bde2020/hadoop-resourcemanager:1.0.0
-  hostname: resourcemanager
-  container_name: resourcemanager
-  domainname: hadoop
-  net: hadoop
-  env_file:
-    - ./hadoop.env
+  namenode:
+    image: sangwonl/hadoop-namenode:latest
+    container_name: namenode
+    hostname: namenode
+    networks:
+      - hadoop
+    volumes:
+      - ./data/namenode:/hadoop/dfs/name
+    environment:
+      - CLUSTER_NAME=test
+    env_file:
+      - ./hadoop.env
 
-historyserver:
-  image: bde2020/hadoop-historyserver:1.0.0
-  hostname: historyserver
-  container_name: historyserver
-  domainname: hadoop
-  net: hadoop
-  volumes:
-    - ./data/historyserver:/hadoop/yarn/timeline
-  env_file:
-    - ./hadoop.env
+  resourcemanager:
+    image: sangwonl/hadoop-resourcemanager:latest
+    container_name: resourcemanager
+    hostname: resourcemanager
+    networks:
+      - hadoop
+    env_file:
+      - ./hadoop.env
 
-nodemanager1:
-  image: bde2020/hadoop-nodemanager:1.0.0
-  hostname: nodemanager1
-  container_name: nodemanager1
-  domainname: hadoop
-  net: hadoop
-  env_file:
-    - ./hadoop.env
+  historyserver:
+    image: sangwonl/hadoop-historyserver:latest
+    container_name: historyserver
+    hostname: historyserver
+    networks:
+      - hadoop
+    volumes:
+      - ./data/historyserver:/hadoop/yarn/timeline
+    env_file:
+      - ./hadoop.env
 
-datanode1:
-  image: bde2020/hadoop-datanode:1.0.0
-  hostname: datanode1
-  container_name: datanode1
-  domainname: hadoop
-  net: hadoop
-  volumes:
-    - ./data/datanode1:/hadoop/dfs/data
-  env_file:
-    - ./hadoop.env
+  nodemanager1:
+    image: sangwonl/hadoop-nodemanager:latest
+    container_name: nodemanager
+    hostname: nodemanager
+    networks:
+      - hadoop
+    env_file:
+      - ./hadoop.env
 
-datanode2:
-  image: bde2020/hadoop-datanode:1.0.0
-  hostname: datanode2
-  container_name: datanode2
-  domainname: hadoop
-  net: hadoop
-  volumes:
-    - ./data/datanode2:/hadoop/dfs/data
-  env_file:
-    - ./hadoop.env
+  datanode1:
+    image: sangwonl/hadoop-datanode:latest
+    container_name: datanode1
+    hostname: datanode1
+    networks:
+      - hadoop
+    volumes:
+      - ./data/datanode1:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+
+  datanode2:
+    image: sangwonl/hadoop-datanode:latest
+    container_name: datanode2
+    hostname: datanode2
+    networks:
+      - hadoop
+    volumes:
+      - ./data/datanode2:/hadoop/dfs/data
+    env_file:
+      - ./hadoop.env
+
+networks:
+  hadoop:
+    driver: bridge

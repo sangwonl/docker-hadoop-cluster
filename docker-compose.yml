@@ -2,8 +2,11 @@ version: "2"
 
 services:
   namenode:
-    image: bde2020/hadoop-namenode:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-namenode:latest
     container_name: namenode
+    hostname: nginx
+    networks:
+      - hadoop
     volumes:
       - hadoop_namenode:/hadoop/dfs/name
     environment:
@@ -12,18 +15,26 @@ services:
       - ./hadoop.env
   
   resourcemanager:
-    image: bde2020/hadoop-resourcemanager:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-resourcemanager:latest
     container_name: resourcemanager
+    hostname: resourcemanager
+    networks:
+      - hadoop
     depends_on:
       - namenode
       - datanode1
       - datanode2
+    ports:
+      - "8088:8088"
     env_file:
       - ./hadoop.env
   
   historyserver:
-    image: bde2020/hadoop-historyserver:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-historyserver:latest
     container_name: historyserver
+    hostname: historyserver
+    networks:
+      - hadoop
     depends_on:
       - namenode
       - datanode1
@@ -34,18 +45,23 @@ services:
       - ./hadoop.env
   
   nodemanager1:
-    image: bde2020/hadoop-nodemanager:1.1.0-hadoop2.7.1-java8
-    container_name: nodemanager1
+    image: sangwonl/hadoop-nodemanager:latest
+    container_name: nodemanager
+    hostname: nodemanager
+    networks:
+      - hadoop
     depends_on:
       - namenode
-      - datanode1
-      - datanode2
+      - resourcemanager
     env_file:
       - ./hadoop.env
   
   datanode1:
-    image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-datanode:latest
     container_name: datanode1
+    hostname: datanode1
+    networks:
+      - hadoop
     depends_on:
       - namenode
     volumes:
@@ -54,8 +70,11 @@ services:
       - ./hadoop.env
   
   datanode2:
-    image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-datanode:latest
     container_name: datanode2
+    hostname: datanode2
+    networks:
+      - hadoop
     depends_on:
       - namenode
     volumes:
@@ -64,8 +83,11 @@ services:
       - ./hadoop.env
   
   datanode3:
-    image: bde2020/hadoop-datanode:1.1.0-hadoop2.7.1-java8
+    image: sangwonl/hadoop-datanode:latest
     container_name: datanode3
+    hostname: datanode3
+    networks:
+      - hadoop
     depends_on:
       - namenode
     volumes:
@@ -79,3 +101,7 @@ volumes:
   hadoop_datanode2:
   hadoop_datanode3:
   hadoop_historyserver:
+
+networks:
+  hadoop:
+    driver: bridge
