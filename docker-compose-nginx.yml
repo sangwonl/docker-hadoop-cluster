@@ -77,4 +77,5 @@ services:
 
 networks:
   hadoop:
-    driver: bridge
+    external:
+      name: hadoop

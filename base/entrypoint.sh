@@ -14,9 +14,8 @@ function addProperty() {
 }
 
 function configure() {
-    local path=$1
-    local module=$2
-    local envPrefix=$3
+    local module=$1
+    local envPrefix=$2
 
     local var
     local value
@@ -31,11 +30,11 @@ function configure() {
     done
 }
 
-configure /etc/hadoop/core-site.xml core CORE_CONF
-configure /etc/hadoop/hdfs-site.xml hdfs HDFS_CONF
-configure /etc/hadoop/yarn-site.xml yarn YARN_CONF
-configure /etc/hadoop/httpfs-site.xml httpfs HTTPFS_CONF
-configure /etc/hadoop/kms-site.xml kms KMS_CONF
+configure core CORE_CONF
+configure hdfs HDFS_CONF
+configure yarn YARN_CONF
+configure httpfs HTTPFS_CONF
+configure kms KMS_CONF
 
 if [ "$MULTIHOMED_NETWORK" = "1" ]; then
     echo "Configuring for multihomed network"

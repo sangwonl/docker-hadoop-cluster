@@ -5,6 +5,7 @@ MAINTAINER Sangwon Lee <gamzabaw@gmail.com>
 RUN apt-get update &&     \
     apt-get install -y    \
         openjdk-8-jdk     \
+        python            \
         openssh-server    \
         curl
 
