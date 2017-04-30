@@ -10,6 +10,11 @@ VOLUME /hadoop/dfs/data
 ADD run.sh /run.sh
 RUN chmod a+x /run.sh
 
+# Web
 EXPOSE 50075
+# Default
+EXPOSE 50010
+# IPC
+EXPOSE 50020
 
 CMD ["/run.sh"]
