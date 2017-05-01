@@ -5,6 +5,8 @@ services:
     build: ./namenode
     container_name: namenode
     hostname: namenode
+    networks:
+      - hadoop
     volumes:
       - ./data/namenode:/hadoop/dfs/name
     environment:
@@ -20,6 +22,8 @@ services:
       - namenode
       - datanode1
       - datanode2
+    networks:
+      - hadoop
     links:
       - namenode
     ports:
@@ -37,6 +41,8 @@ services:
       - namenode
       - datanode1
       - datanode2      
+    networks:
+      - hadoop
     links:
       - namenode
     ports:
@@ -51,6 +57,8 @@ services:
     depends_on:
       - namenode
       - resourcemanager
+    networks:
+      - hadoop
     links:
       - namenode
       - resourcemanager
@@ -65,6 +73,8 @@ services:
     hostname: datanode1
     depends_on:
       - namenode
+    networks:
+      - hadoop
     links:
       - namenode
     volumes:
@@ -78,6 +88,8 @@ services:
     hostname: datanode2
     depends_on:
       - namenode
+    networks:
+      - hadoop
     links:
       - namenode
     volumes:
@@ -91,9 +103,16 @@ services:
     hostname: datanode3
     depends_on:
       - namenode
+    networks:
+      - hadoop
     links:
       - namenode
     volumes:
       - ./data/datanode3:/hadoop/dfs/data
     env_file:
       - ./hadoop.env
+
+networks:
+  hadoop:
+    external:
+      name: hadoop
