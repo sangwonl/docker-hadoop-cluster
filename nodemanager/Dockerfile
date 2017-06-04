@@ -1,5 +1,7 @@
-FROM sangwonl/hadoop-base:2.7.1
+FROM sangwonl/hadoop-base:latest
 MAINTAINER Sangwon Lee <gamzabaw@gmail.com>
+
+RUN apt-get install -y python
 
 HEALTHCHECK CMD curl -f http://localhost:8042/ || exit 1
 

@@ -1,4 +1,4 @@
-FROM sangwonl/hadoop-base:2.7.1
+FROM sangwonl/hadoop-base:latest
 MAINTAINER Sangwon Lee <gamzabaw@gmail.com>
 
 HEALTHCHECK CMD curl -f http://localhost:8188/ || exit 1
